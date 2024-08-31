@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../component/ProductCard";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { productAction } from "../redux/actions/productActions";
 
 const ProductAll = () => {
-  const [productList, setProductList] = useState([]);
+  const productList = useSelector((state) => state.productList);
   const [query, setQuery] = useSearchParams();
-  const getProducts = async () => {
+  const dispatch = useDispatch();
+
+  const getProducts = () => {
     let searchQuery = query.get("q") || ""; // 쿼리가 없는 경우를 대비해서 빈 값을 넣어줌
     console.log("쿼리값은?", searchQuery);
-    let url = `https://my-json-server.typicode.com/jaeyoung99-lee/CodingSister_hnm-shopping-mall/products?q=${searchQuery}`;
-    let response = await fetch(url);
-    let data = await response.json();
-    console.log("data :", data);
-    setProductList(data);
+    dispatch(productAction.getProducts(searchQuery));
   };
+
   useEffect(() => {
     getProducts();
   }, [query]);
