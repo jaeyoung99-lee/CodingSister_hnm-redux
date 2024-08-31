@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Dropdown, DropdownButton, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { productAction } from "../redux/actions/productActions";
 
 const ProductDetail = () => {
   let { id } = useParams();
   console.log("id :", id);
-  const [product, setProduct] = useState(null);
+  const product = useSelector((state) => state.product.selectedItem);
   const [selectedSize, setSelectedSize] = useState("사이즈 선택");
-  const getProductDetail = async () => {
-    let url = `https://my-json-server.typicode.com/jaeyoung99-lee/CodingSister_hnm-shopping-mall/products/${id}`;
-    let response = await fetch(url);
-    let data = await response.json();
-    console.log("data :", data);
-    setProduct(data);
+  const dispatch = useDispatch();
+
+  const getProductDetail = () => {
+    dispatch(productAction.getProductDetail(id));
   };
   const navigate = useNavigate();
   const goToHome = () => {

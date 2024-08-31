@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ProductAll from "./page/ProductAll";
 import Login from "./page/Login";
 import Navbar from "./component/Navbar";
-import { useEffect, useState } from "react";
 import PrivateRoute from "./route/PrivateRoute";
 
 // 1. 전체 상품 페이지, 로그인 페이지, 상품 상세 페이지
@@ -19,24 +18,13 @@ import PrivateRoute from "./route/PrivateRoute";
 // 9. 상품을 검색할 수 있다
 
 function App() {
-  const [authenticate, setAuthenticate] = useState(false); //로그인 성공 유무
-  useEffect(() => {
-    // 로그인 성공했는지 확인하는 코드
-    console.log("Verify that the login status has changed :", authenticate);
-  }, [authenticate]);
   return (
     <div>
-      <Navbar authenticate={authenticate} setAuthenticate={setAuthenticate} />
+      <Navbar />
       <Routes>
         <Route path="/" element={<ProductAll />} />
-        <Route
-          path="/login"
-          element={<Login setAuthenticate={setAuthenticate} />}
-        />
-        <Route
-          path="/product/:id"
-          element={<PrivateRoute authenticate={authenticate} />}
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/product/:id" element={<PrivateRoute />} />
       </Routes>
     </div>
   );

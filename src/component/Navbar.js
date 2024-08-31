@@ -2,11 +2,15 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ authenticate, setAuthenticate }) => {
+const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const authenticate = useSelector((state) => state.auth.authenticate);
 
   const Menu = () => {
     setMenuOpen(!menuOpen);
@@ -15,7 +19,7 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
   const goToLogin = () => {
     {
       authenticate === false ? navigate("/login") : navigate("/");
-      setAuthenticate(false);
+      dispatch({ type: "LOGOUT" });
     }
   };
 
